@@ -65,5 +65,67 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
     integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script type = 'text/javascript'>
+    const tableQuery = () => {
+      axios.get('/api/tables')
+      .then(tableData => {
+        console.log(tableData)
+        for (let i = 0; i < tableData.length; i++) {
+          let tableList = document.getElementById('tableList')
+          let listItem = document.innerHTML = "<li class='list-group - item mt - 4'>"
+          listItem.append(
+            `
+            <h2>Table # ${i+1}</h2>
+            <hr>
+            <h2>ID: ${tableData[i].customerID}</h2>
+            <h2>Name: ${tableData[i].customerName}</h2>
+            <h2>Email: ${tableData[i].customerEmail}</h2>
+            <h2>Phone: ${tableData[i].phoneNumber}</h2>
+            `
+          )
+          tableList.append(listItem)
+        }
+      })
+    }
+
+    const waitlistQuery = () => {
+      axios.get('/api/waitlist')
+      .then(waitData =>{
+        console.log(waitData)
+        for (let i = 0; i < waitData.length; i++) {
+          let waitList = document.getElementById('waitList')
+          let listItem = document.innerHTML = "<li class='list-group - item mt - 4'>"
+          listItem.append(
+            `
+            <h2>Table # ${i + 1}</h2>
+            <hr>
+            <h2>ID: ${waitData[i].customerID}</h2>
+            <h2>Name: ${waitData[i].customerName}</h2>
+            <h2>Email: ${waitData[i].customerEmail}</h2>
+            <h2>Phone: ${waitData[i].phoneNumber}</h2>
+            `
+          )
+          waitList.append(listItem)
+        }
+      })
+    }
+
+    const clearTable = () => {
+      axios.post('/api/clear')
+      .then(
+        document.getElementById('waitList').innerHTML=''
+        document.getElementById('tableList').innerHTML=''
+      )
+    }
+
+    document.getElementById('clear').addEventListener('click', event => {
+      clearTable()
+    })
+    
+    tableQuery()
+    waitlistQuery()
+
+  </script>
 </body>
 </html>
