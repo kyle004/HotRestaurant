@@ -64,7 +64,7 @@
               <label for="reserve-unique-id">Unique ID</label>
               <input type="text" class="form-control" id="reserve-unique-id">
             </div>
-            <button type="submit" class="btn btn-primary submit">Submit</button>
+            <button id= "submit" type="submit" class="btn btn-primary submit">Submit</button>
           </form>
         </div>
       </div>
@@ -87,6 +87,37 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+
+      <script>
+        document.getElementById('submit').addEventListener('click', event => {
+          preventDefault()
+
+          let newReservation = {
+            customerName: document.getElementById('reserve-name').value,
+            phoneNumber: document.getElementById('reserve-phone').value,
+            customerEmail: document.getElementById('reserve-email').value,
+            customerID: document.getElementById('reserve-unique-id').value
+          }
+
+          console.log(newReservation)
+
+
+          axios.post('/api/tables', newReservation, function(data) {
+            
+            if (data) {
+              alert("You have successfully booked your reservation!")
+            } else {
+              alert("You have been added to the wait list")
+            }
+
+
+            document.getElementById('reserve-name').value = ''
+            document.getElementById('reserve-phone').value = ''
+            document.getElementById('reserve-email').value = ''
+            document.getElementById('reserve-unique-id').value = ''
+          })
+        })
+      </script>
   
 </body>
 </html>
